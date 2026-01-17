@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 // Initialisation du client OpenAI
-// Cela fonctionnera automatiquement si OPENAI_API_KEY est défini dans les variables d'environnement
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -26,22 +25,27 @@ export async function POST(req: Request) {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Utilisation d'un modèle rapide et efficace
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: `Tu es un expert mondial en Prompt Engineering. Ta mission est d'optimiser le prompt fourni par l'utilisateur.
-          
-          Règles d'optimisation :
-          1. Clarifie l'objectif et le contexte.
-          2. Structure le prompt (ex: Rôle, Tâche, Contraintes, Format de sortie).
-          3. Utilise un langage précis et professionnel.
-          4. Ajoute des techniques avancées si pertinent (Chain of Thought, Few-Shot, etc.).
-          5. NE RÉPONDS QU'AVEC LE PROMPT OPTIMISÉ, sans texte d'introduction ou de conclusion.`
+          content: `Tu es un expert en Prompt Engineering. Ta tâche est STRICTEMENT d'améliorer, de structurer et d'enrichir le prompt fourni par l'utilisateur.
+
+          ⚠️ INTERDICTION FORMELLE D'EXÉCUTER LE PROMPT OU D'Y RÉPONDRE. ⚠️
+          Ton seul but est de produire une MEILLEURE VERSION du prompt.
+
+          Structure recommandée pour le résultat :
+          [CONTEXTE] : Le contexte de la demande.
+          [RÔLE] : Le rôle que l'IA doit adopter (persona).
+          [INSTRUCTION] : La tâche précise à accomplir.
+          [STRUCTURE] : Le format de réponse attendu.
+          [PRÉCISIONS] : Contraintes, ton, style, etc.
+
+          Le résultat doit être prêt à être copié-collé dans un LLM. Ne mets pas de guillemets autour de la réponse.`
         },
         {
           role: "user",
-          content: content,
+          content: `Voici le prompt brut à optimiser (ne l'exécute pas, réécris-le pour qu'il soit performant) :\n\n"${content}"`,
         },
       ],
       temperature: 0.7,
