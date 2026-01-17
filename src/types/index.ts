@@ -8,4 +8,5 @@ export interface Prompt {
   isFavorite: boolean;
 }
 
-export type Category = "General" | "Coding" | "Writing" | "Marketing" | "Data";
+// Category est maintenant une string car l'utilisateur peut en créer
+export type Category = string;

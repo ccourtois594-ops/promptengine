@@ -1,16 +1,11 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import {
-  Calendar,
   Home,
   Inbox,
-  Search,
-  Settings,
   Sparkles,
   Tag,
-  PenTool,
-  Code,
-  BookOpen
 } from "lucide-react";
 
 import {
@@ -24,7 +19,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Menu items.
+// Menu items static
 const items = [
   {
     title: "Tous les prompts",
@@ -43,14 +38,25 @@ const items = [
   },
 ];
 
-const categories = [
-  { title: "Développement", icon: Code },
-  { title: "Rédaction", icon: PenTool },
-  { title: "Marketing", icon: Tag },
-  { title: "Documentation", icon: BookOpen },
-];
-
 export function AppSidebar() {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
+        if (res.ok) {
+          const data = await res.json();
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error("Failed to load categories", error);
+      }
+    };
+    
+    fetchCategories();
+  }, []);
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -76,16 +82,22 @@ export function AppSidebar() {
           <SidebarGroupLabel>Catégories</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {categories.map((cat) => (
-                <SidebarMenuItem key={cat.title}>
-                  <SidebarMenuButton asChild>
-                    <a href="#">
-                      <cat.icon />
-                      <span>{cat.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {categories.length > 0 ? (
+                categories.map((cat) => (
+                  <SidebarMenuItem key={cat}>
+                    <SidebarMenuButton asChild>
+                      <a href="#">
+                        <Tag className="h-4 w-4" />
+                        <span>{cat}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))
+              ) : (
+                <div className="px-2 py-4 text-sm text-muted-foreground text-center">
+                  Aucune catégorie
+                </div>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -31,12 +31,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PlusCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z.string().min(2, "Le titre doit contenir au moins 2 caractères"),
   content: z.string().min(10, "Le contenu doit contenir au moins 10 caractères"),
-  category: z.string(),
-  tags: z.string(), // On gérera les tags comme une string séparée par des virgules pour simplifier
+  category: z.string().min(1, "La catégorie est requise"),
+  tags: z.string(),
 });
 
 interface PromptFormDialogProps {
@@ -52,15 +54,36 @@ export function PromptFormDialog({
   onSubmit,
   initialData,
 }: PromptFormDialogProps) {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [isNewCategoryMode, setIsNewCategoryMode] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       content: "",
-      category: "General",
+      category: "",
       tags: "",
     },
   });
+
+  // Charger les catégories au montage
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("/api/categories");
+      if (res.ok) {
+        const data = await res.json();
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error("Erreur chargement catégories", error);
+    }
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -70,15 +93,39 @@ export function PromptFormDialog({
         category: initialData.category,
         tags: initialData.tags.join(", "),
       });
+      setIsNewCategoryMode(false);
     } else {
       form.reset({
         title: "",
         content: "",
-        category: "General",
+        category: "",
         tags: "",
       });
+      setIsNewCategoryMode(false);
     }
   }, [initialData, form, open]);
+
+  const handleAddNewCategory = async () => {
+    if (!newCategoryName.trim()) return;
+    
+    try {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category: newCategoryName.trim() }),
+      });
+      
+      if (res.ok) {
+        await fetchCategories(); // Recharger la liste
+        form.setValue("category", newCategoryName.trim()); // Sélectionner la nouvelle
+        setIsNewCategoryMode(false);
+        setNewCategoryName("");
+        toast.success("Catégorie ajoutée");
+      }
+    } catch (error) {
+      toast.error("Erreur lors de l'ajout de la catégorie");
+    }
+  };
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit(values, initialData?.id);
@@ -113,30 +160,67 @@ export function PromptFormDialog({
             />
             
             <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Catégorie</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Choisir une catégorie" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="General">Général</SelectItem>
-                        <SelectItem value="Coding">Développement</SelectItem>
-                        <SelectItem value="Writing">Rédaction</SelectItem>
-                        <SelectItem value="Marketing">Marketing</SelectItem>
-                        <SelectItem value="Data">Data</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
+              <FormItem>
+                <FormLabel>Catégorie</FormLabel>
+                {!isNewCategoryMode ? (
+                  <div className="flex gap-2">
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <Select 
+                          onValueChange={field.onChange} 
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Choisir..." />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {categories.map((cat) => (
+                              <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="icon"
+                      onClick={() => setIsNewCategoryMode(true)}
+                      title="Nouvelle catégorie"
+                    >
+                      <PlusCircle className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Input 
+                      placeholder="Nom de la catégorie" 
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                    />
+                    <Button 
+                      type="button" 
+                      size="sm"
+                      onClick={handleAddNewCategory}
+                    >
+                      Ok
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setIsNewCategoryMode(false)}
+                    >
+                      Annuler
+                    </Button>
+                  </div>
                 )}
-              />
+                <FormMessage />
+              </FormItem>
               
               <FormField
                 control={form.control}
