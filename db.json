@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1",
+    "title": "Expert React/Next.js",
+    "content": "Tu es un expert senior en React et Next.js 15. Tu privilégies toujours les Server Components, TypeScript strict, et Tailwind CSS. Tes réponses doivent être concises et inclure des exemples de code complets.",
+    "category": "Coding",
+    "tags": [
+      "react",
+      "nextjs",
+      "typescript"
+    ],
+    "lastModified": "2024-03-20T10:00:00.000Z",
+    "isFavorite": true
+  },
+  {
+    "id": "2",
+    "title": "Correction orthographique",
+    "content": "Corrige ce texte en français. Améliore le style pour qu'il soit professionnel, supprime les répétitions et assure-toi que la grammaire est parfaite. Ne change pas le sens du message original.",
+    "category": "Writing",
+    "tags": [
+      "correction",
+      "email",
+      "pro"
+    ],
+    "lastModified": "2024-03-20T11:00:00.000Z",
+    "isFavorite": false
+  },
+  {
+    "id": "3",
+    "title": "Stratégie Marketing Instagram",
+    "content": "Crée un calendrier éditorial de 5 posts pour Instagram pour une marque de café artisanal. Inclus les légendes, les suggestions visuelles et les hashtags pertinents pour une audience jeune et urbaine.",
+    "category": "Marketing",
+    "tags": [
+      "instagram",
+      "social-media",
+      "café"
+    ],
+    "lastModified": "2024-03-20T12:00:00.000Z",
+    "isFavorite": false
+  }
+]

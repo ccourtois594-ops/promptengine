@@ -1,51 +1,62 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Prompt } from "../types/index";
 import { PromptCard } from "@/components/prompt-card";
 import { PromptFormDialog } from "@/components/prompt-form-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Plus, Search, Sparkles } from "lucide-react";
+import { Plus, Search, Sparkles, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-// Mock data initial
-const initialPrompts: Prompt[] = [
-  {
-    id: "1",
-    title: "Expert React/Next.js",
-    content: "Tu es un expert senior en React et Next.js 15. Tu privilégies toujours les Server Components, TypeScript strict, et Tailwind CSS. Tes réponses doivent être concises et inclure des exemples de code complets.",
-    category: "Coding",
-    tags: ["react", "nextjs", "typescript"],
-    lastModified: new Date(),
-    isFavorite: true,
-  },
-  {
-    id: "2",
-    title: "Correction orthographique",
-    content: "Corrige ce texte en français. Améliore le style pour qu'il soit professionnel, supprime les répétitions et assure-toi que la grammaire est parfaite. Ne change pas le sens du message original.",
-    category: "Writing",
-    tags: ["correction", "email", "pro"],
-    lastModified: new Date(),
-    isFavorite: false,
-  },
-  {
-    id: "3",
-    title: "Stratégie Marketing Instagram",
-    content: "Crée un calendrier éditorial de 5 posts pour Instagram pour une marque de café artisanal. Inclus les légendes, les suggestions visuelles et les hashtags pertinents pour une audience jeune et urbaine.",
-    category: "Marketing",
-    tags: ["instagram", "social-media", "café"],
-    lastModified: new Date(),
-    isFavorite: false,
-  },
-];
-
 export default function Home() {
-  const [prompts, setPrompts] = useState<Prompt[]>(initialPrompts);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null);
+
+  // Charger les données au démarrage
+  useEffect(() => {
+    fetchPrompts();
+  }, []);
+
+  const fetchPrompts = async () => {
+    try {
+      const res = await fetch("/api/prompts");
+      if (!res.ok) throw new Error("Erreur chargement");
+      const data = await res.json();
+      // Conversion des strings de date en objets Date si nécessaire
+      const formattedData = data.map((p: any) => ({
+        ...p,
+        lastModified: new Date(p.lastModified)
+      }));
+      setPrompts(formattedData);
+    } catch (error) {
+      toast.error("Impossible de charger les prompts");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fonction utilitaire pour sauvegarder dans db.json
+  const savePromptsToDb = async (newPrompts: Prompt[]) => {
+    // Mise à jour optimiste de l'UI
+    setPrompts(newPrompts);
+    
+    try {
+      await fetch("/api/prompts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPrompts),
+      });
+      // On ne notifie pas à chaque sauvegarde auto pour ne pas spammer, sauf erreur
+    } catch (error) {
+      console.error("Erreur sauvegarde:", error);
+      toast.error("Erreur lors de la sauvegarde automatique");
+    }
+  };
 
   const filteredPrompts = prompts.filter((prompt) =>
     prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -55,15 +66,17 @@ export default function Home() {
   const handleCreateOrUpdate = (values: any, id?: string) => {
     const tagsArray = values.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t !== "");
     
+    let newPromptsList: Prompt[];
+
     if (id) {
       // Update
-      setPrompts(prompts.map(p => p.id === id ? {
+      newPromptsList = prompts.map(p => p.id === id ? {
         ...p,
         ...values,
         tags: tagsArray,
         lastModified: new Date()
-      } : p));
-      toast.success("Prompt mis à jour avec succès");
+      } : p);
+      toast.success("Prompt mis à jour");
     } else {
       // Create
       const newPrompt: Prompt = {
@@ -75,14 +88,17 @@ export default function Home() {
         lastModified: new Date(),
         isFavorite: false,
       };
-      setPrompts([newPrompt, ...prompts]);
+      newPromptsList = [newPrompt, ...prompts];
       toast.success("Nouveau prompt créé");
     }
+
+    savePromptsToDb(newPromptsList);
     setEditingPrompt(null);
   };
 
   const handleDelete = (id: string) => {
-    setPrompts(prompts.filter(p => p.id !== id));
+    const newPromptsList = prompts.filter(p => p.id !== id);
+    savePromptsToDb(newPromptsList);
     toast.success("Prompt supprimé");
   };
 
@@ -92,7 +108,8 @@ export default function Home() {
   };
 
   const handleToggleFavorite = (id: string) => {
-    setPrompts(prompts.map(p => p.id === id ? { ...p, isFavorite: !p.isFavorite } : p));
+    const newPromptsList = prompts.map(p => p.id === id ? { ...p, isFavorite: !p.isFavorite } : p);
+    savePromptsToDb(newPromptsList);
   };
 
   const handleOptimize = async (prompt: Prompt) => {
@@ -111,13 +128,14 @@ export default function Home() {
         throw new Error(data.error || "Une erreur est survenue");
       }
 
-      setPrompts(prompts.map(p => p.id === prompt.id ? {
+      const newPromptsList = prompts.map(p => p.id === prompt.id ? {
         ...p,
         content: data.optimizedContent,
         lastModified: new Date()
-      } : p));
-      
-      toast.success("Prompt optimisé par l'IA !");
+      } : p);
+
+      savePromptsToDb(newPromptsList);
+      toast.success("Prompt optimisé par l'IA et sauvegardé !");
     } catch (error) {
       console.error("Erreur d'optimisation:", error);
       toast.error(error instanceof Error ? error.message : "Erreur lors de l'optimisation");
@@ -128,6 +146,14 @@ export default function Home() {
     setEditingPrompt(null);
     setIsDialogOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
