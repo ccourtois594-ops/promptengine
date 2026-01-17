@@ -96,21 +96,32 @@ export default function Home() {
   };
 
   const handleOptimize = async (prompt: Prompt) => {
-    // Simulation d'un appel API IA
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const enhancedContent = `[OPTIMISÉ PAR IA ✨]\n\n${prompt.content}\n\nInstructions additionnelles suggérées :\n- Ajoute "Réponds étape par étape" pour plus de clarté.\n- Spécifie le format de sortie désiré (Markdown, JSON, etc.).`;
-        
-        setPrompts(prompts.map(p => p.id === prompt.id ? {
-          ...p,
-          content: enhancedContent,
-          lastModified: new Date()
-        } : p));
-        
-        toast.success("Prompt optimisé par l'IA !");
-        resolve();
-      }, 1500);
-    });
+    try {
+      const response = await fetch("/api/optimize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: prompt.content }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Une erreur est survenue");
+      }
+
+      setPrompts(prompts.map(p => p.id === prompt.id ? {
+        ...p,
+        content: data.optimizedContent,
+        lastModified: new Date()
+      } : p));
+      
+      toast.success("Prompt optimisé par l'IA !");
+    } catch (error) {
+      console.error("Erreur d'optimisation:", error);
+      toast.error(error instanceof Error ? error.message : "Erreur lors de l'optimisation");
+    }
   };
 
   const openNewPromptDialog = () => {
