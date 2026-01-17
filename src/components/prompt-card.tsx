@@ -44,7 +44,6 @@ export function PromptCard({
 
   const handleOptimize = async () => {
     setIsOptimizing(true);
-    // Simulation du délai d'optimisation
     await onOptimize(prompt);
     setIsOptimizing(false);
   };
@@ -73,8 +72,10 @@ export function PromptCard({
             size="icon" 
             className={prompt.isFavorite ? "text-yellow-500" : "text-muted-foreground"}
             onClick={() => onToggleFavorite(prompt.id)}
+            title={prompt.isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
           >
             <Star className="h-4 w-4 fill-current" />
+            <span className="sr-only">Favori</span>
           </Button>
         </div>
       </CardHeader>
@@ -90,27 +91,46 @@ export function PromptCard({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="pt-3 border-t flex justify-between gap-2">
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handleCopy}>
-            <Copy className="h-4 w-4 mr-1" /> Copier
+      
+      {/* Footer réorganisé pour l'accessibilité */}
+      <CardFooter className="pt-3 border-t flex flex-col gap-3">
+        {/* Actions principales */}
+        <div className="flex gap-2 w-full">
+          <Button variant="outline" size="sm" onClick={handleCopy} className="flex-1">
+            <Copy className="h-4 w-4 mr-2" /> 
+            Copier
           </Button>
           <Button 
-            variant="outline" 
+            variant="default" 
             size="sm" 
             onClick={handleOptimize}
             disabled={isOptimizing}
+            className="flex-1"
           >
-            <Wand2 className={`h-4 w-4 mr-1 ${isOptimizing ? 'animate-spin' : ''}`} /> 
+            <Wand2 className={`h-4 w-4 mr-2 ${isOptimizing ? 'animate-spin' : ''}`} /> 
             {isOptimizing ? "IA..." : "Optimiser"}
           </Button>
         </div>
-        <div className="flex gap-1">
-          <Button variant="ghost" size="icon" onClick={() => onEdit(prompt)}>
-            <Edit className="h-4 w-4" />
+
+        {/* Actions de gestion */}
+        <div className="flex gap-2 w-full pt-2 border-t border-dashed">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => onEdit(prompt)} 
+            className="flex-1 text-muted-foreground hover:text-foreground"
+          >
+            <Edit className="h-4 w-4 mr-2" /> 
+            Modifier
           </Button>
-          <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => onDelete(prompt.id)}>
-            <Trash2 className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex-1 text-destructive hover:text-destructive hover:bg-destructive/10" 
+            onClick={() => onDelete(prompt.id)}
+          >
+            <Trash2 className="h-4 w-4 mr-2" /> 
+            Supprimer
           </Button>
         </div>
       </CardFooter>
