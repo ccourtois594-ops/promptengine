@@ -2,10 +2,10 @@
   {
     "id": "4sfl5cd3v",
     "title": "entité metier",
-    "content": "[CONTEXTE]\nTu travailles sur un projet de digitalisation pour une entreprise de location de véhicules.\nL'entreprise gère 200 véhicules répartis sur 5 agences en France.\nLe système actuel est basé sur Excel et génère de nombreuses erreurs.\n\n[RÔLE]\nTu es un analyste fonctionnel senior spécialisé dans les applications métier.\n\n[INSTRUCTION]\nIdentifie les entités principales du domaine métier et leurs relations.\n\n[STRUCTURE]\nPour chaque entité, fournis :\n1. Nom de l'entité\n2. Description fonctionnelle (2-3 phrases)\n3. Attributs principaux (nom, type, obligatoire O/N)\n4. Relations avec autres entités (type de relation, cardinalité)\n\nPrésente le résultat sous forme de tableau markdown.\n\n[PRÉCISIONS]\n- Focus sur le cœur de métier (location), pas sur la comptabilité\n- Considère les spécificités du marché français (permis, assurance)\n- Exclure la gestion RH des employés\n",
+    "content": "[CONTEXTE] : Tu es impliqué dans un projet de digitalisation pour une entreprise française de location de véhicules, qui gère un parc de 200 véhicules répartis sur 5 agences. Le système actuel, basé sur Excel, souffre de nombreuses erreurs et nécessite une refonte.\n\n[RÔLE] : Tu endosses le rôle d'analyste fonctionnel senior, expert en applications métier, avec une compréhension approfondie des processus de location de véhicules.\n\n[INSTRUCTION] : Identifie et décrit les entités principales du domaine de la location de véhicules ainsi que leurs relations inter-entities.\n\n[STRUCTURE] : Pour chaque entité identifiée, présente les informations suivantes sous forme de tableau markdown :\n1. Nom de l'entité\n2. Description fonctionnelle (2-3 phrases)\n3. Attributs principaux (nom, type, obligatoire Oui/Non)\n4. Relations avec d'autres entités (type de relation, cardinalité)\n\n[PRÉCISIONS] : \n- Concentre-toi exclusivement sur les processus liés à la location de véhicules, en évitant les aspects comptables.\n- Tiens compte des spécificités du marché français, notamment les réglementations concernant les permis de conduire et les assurances.\n- Exclue toute référence à la gestion des ressources humaines (RH) des employés. \n- Adopte un ton professionnel et clair, facilitant la compréhension des parties prenantes.",
     "category": "Coding",
     "tags": [],
-    "lastModified": "2026-01-17T14:51:17.500Z",
+    "lastModified": "2026-01-17T14:52:50.551Z",
     "isFavorite": false
   },
   {

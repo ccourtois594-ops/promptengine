@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prompt Manager AI
 
-## Getting Started
+Une application moderne pour gérer, organiser et optimiser vos prompts pour LLM (ChatGPT, Claude, Gemini, etc.).
 
-First, run the development server:
+## 🚀 Fonctionnalités
+
+- **Gestion complète** : Créer, lire, mettre à jour et supprimer des prompts.
+- **Organisation** : Classement par catégories (Coding, Writing, Marketing, etc.) et système de tags.
+- **Optimisation IA** : Amélioration automatique de vos prompts via l'API OpenAI. Le système agit comme un expert en "Prompt Engineering" pour structurer vos demandes (Contexte, Rôle, Tâche) sans les exécuter.
+- **Favoris** : Mise en avant de vos prompts les plus utilisés.
+- **Sauvegarde locale** : Persistance des données en temps réel dans un fichier JSON local (`db.json`).
+- **Interface Moderne** : UI soignée avec Shadcn/UI, Tailwind CSS et animations fluides.
+
+## 🛠️ Stack Technique
+
+- **Framework** : Next.js 15 (App Router)
+- **Langage** : TypeScript
+- **UI** : Shadcn/UI & Tailwind CSS
+- **Icônes** : Lucide React
+- **Validation** : Zod & React Hook Form
+- **AI** : OpenAI API (gpt-4o-mini)
+
+## 📦 Installation
+
+1. **Installer les dépendances**
+
+```bash
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+```
+
+2. **Configuration de l'IA**
+
+Créez un fichier `.env.local` à la racine du projet et ajoutez votre clé API OpenAI :
+
+```env
+OPENAI_API_KEY=sk-votre-cle-api-openai-ici
+```
+
+> **Note** : Sans cette clé, les fonctionnalités de gestion de base fonctionneront, mais l'optimisation par IA retournera une erreur.
+
+3. **Lancer le serveur de développement**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💾 Persistance des Données
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Actuellement, l'application utilise un fichier `db.json` situé à la racine du projet pour stocker les données.
 
-## Learn More
+- **Avantage** : Aucune configuration de base de données complexe requise pour le développement local.
+- **Fonctionnement** : L'API Next.js lit et écrit directement dans ce fichier via le système de fichiers (`fs`).
+- **Limitation** : Ce système est conçu pour un usage local. Sur des hébergements "serverless" (comme Vercel), le système de fichiers est éphémère ou en lecture seule. Pour un déploiement en production, il est recommandé de migrer vers une base de données externe (Supabase, PostgreSQL, etc.).
 
-To learn more about Next.js, take a look at the following resources:
+## 🤖 Guide d'Optimisation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+L'outil d'optimisation ne répond pas à votre question, il l'améliore.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Exemple :**
+*   *Entrée* : "Code une navbar"
+*   *Sortie (Optimisée)* : "[CONTEXTE] Tu es un développeur expert React... [TACHE] Crée un composant de barre de navigation responsive... [CONTRAINTES] Utilise Tailwind CSS..."
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
