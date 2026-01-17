@@ -1,50 +1,283 @@
 [
   {
+    "id": "eatrqbcas",
+    "title": "methodologie",
+    "content": "[CONTEXTE] : Notre client souhaite migrer son système de gestion commerciale, développé en Access il y a 15 ans, vers une solution moderne sans code. Actuellement, la base de données comprend 45 tables avec des relations parfois incohérentes, plus de 200 requêtes (dont beaucoup sont obsolètes), 50 formulaires de saisie, 30 rapports d'impression, et un historique de données de 8 ans avec environ 500 000 enregistrements. Le système est utilisé par 15 utilisateurs quotidiens et ne dispose d'aucune documentation.\n\nContraintes : La migration doit garantir la continuité du service, respecter un budget limité, s'achever en 6 mois, ne pas impliquer de développement personnalisé (uniquement no-code), et intégrer la conformité RGPD.\n\n[RÔLE] : Tu es un consultant senior en migration de systèmes legacy, spécialisé dans les solutions sans code.\n\n[INSTRUCTION] : Propose une méthodologie complète et structurée pour analyser et migrer ce système, en tenant compte des contraintes et des besoins spécifiques du client.\n\n[STRUCTURE]\n\n## 1. PHASE D'AUDIT (semaine 1-2)\n### Analyse de l'existant\n- Activités : Auditer les tables, requêtes, formulaires et rapports.\n- Livrables : Rapport d'audit détaillé avec des recommandations.\n- Prompts recommandés : \"Quelles sont les requêtes les plus utilisées ?\", \"Quels formulaires sont essentiels pour les utilisateurs ?\"\n\n### Interviews utilisateurs\n- Questions clés : \"Quels sont vos principaux défis avec l'actuel système ?\", \"Quelles fonctionnalités aimeriez-vous voir dans le nouveau système ?\"\n- Profils à rencontrer : Utilisateurs réguliers, responsables de départements, personnel IT.\n\n### Cartographie fonctionnelle\n- Comment documenter : Utiliser des diagrammes et des tableaux pour représenter les flux de données et les interactions.\n\n## 2. PHASE DE CONCEPTION (semaine 3-6)\n### Nouveau modèle de données\n- Approche de reconstruction : Identifier les entités essentielles et leurs relations, en simplifiant la structure.\n\n### Mapping ancien/nouveau\n- Méthode de correspondance : Créer un tableau de correspondance entre les anciens champs et les nouveaux.\n\n### Règles de transformation\n- Nettoyage des données : Établir des critères de validation pour garantir la qualité des données migrées.\n\n## 3. PHASE DE MIGRATION (semaine 7-10)\n### Stratégie de migration\n- Big bang vs progressive : Évaluer les avantages et inconvénients de chaque approche pour le client.\n\n### Tests et validation\n- Plan de test : Développer des scénarios de tests basés sur les exigences fonctionnelles et techniques.\n\n### Formation\n- Plan de formation : Élaborer un programme de formation pour les utilisateurs sur le nouveau système.\n\n## 4. PHASE DE BASCULE (semaine 11-12)\n### Go/No-Go criteria\n- Checklist de validation : Définir les critères de succès pour la migration.\n\n### Plan de rollback\n- Procédure en cas de problème : Documenter les étapes pour revenir à l'ancien système si nécessaire.\n\n## 5. PROMPTS RECOMMANDÉS PAR PHASE\n- Liste des prompts types pour chaque activité : Fournir des exemples de questions et d'instructions pour guider chaque étape.\n\n[PRÉCISIONS] : \n- Prévoir des points de validation client réguliers pour assurer l'adhésion au projet.\n- Anticiper la résistance au changement en élaborant des stratégies de communication.\n- Documenter toutes les décisions et modifications pour faciliter la maintenance future et assurer la traçabilité.",
+    "category": "methodologie",
+    "tags": [
+      "methodologie",
+      "migration"
+    ],
+    "lastModified": "2026-01-17T22:54:46.030Z",
+    "isFavorite": false
+  },
+  {
+    "id": "a4snaxwqr",
+    "title": "conception ecran",
+    "content": "[CONTEXTE] : Ce prompt concerne la conception d'un écran pour une application dédiée à la gestion des réclamations clients. L'écran en question est un formulaire destiné à la création d'une nouvelle réclamation, utilisé par les agents du service client lors de la réception d'appels de clients mécontents.\n\n[RÔLE] : Tu es un UX Designer senior spécialisé dans les applications B2B métier, avec une expertise dans l'optimisation de l'expérience utilisateur pour des interfaces complexes.\n\n[INSTRUCTION] : Élaborer une description fonctionnelle exhaustive de l'écran du formulaire de création d'une nouvelle réclamation, en tenant compte des spécificités des utilisateurs et des flux de travail.\n\n[STRUCTURE]\n\n## FICHE ÉCRAN : [Code écran]\n\n### Informations générales\n**Nom** : [Nom affiché]  \n**URL/Route** : /[chemin]  \n**Accès** : [Rôles autorisés]  \n**Mode** : [Création / Édition / Consultation]  \n\n### Contexte d'utilisation\n**Précédent** : [Écrans qui amènent ici]  \n**Suivant** : [Écrans accessibles depuis]  \n**Fréquence** : [Nb utilisations/jour estimé]  \n**Durée moyenne** : [Temps passé sur l'écran]  \n\n### Structure de l'écran\n\n#### Header\n+----------------------------------------------------------+  \n| [Logo] [Titre écran] [User] [Notifications] |  \n+----------------------------------------------------------+\n\n#### Zone principale\n[Description ASCII de la mise en page]\n\n### Composants détaillés\n\n#### Section 1 : [Nom de la section]\n| Élément | Type | Label | Obligatoire | Validation | Aide |\n|---------|------|-------|-------------|------------|------|\n| client_search | Autocomplete | \"Client\" | Oui | Min 3 car. | \"Tapez nom, email ou n° client\" |\n| ... | ... | ... | ... | ... | ... |\n\n### Comportements interactifs\n\n#### Chargement de la page\n1. [Action 1]\n2. [Action 2]\n\n#### Validation du formulaire\n- **Validation temps réel** : [Champs concernés]  \n- **Validation à la soumission** : [Règles]  \n- **Messages d'erreur** :\n  | Erreur | Message | Placement |\n  |--------|---------|-----------|\n  | Champ vide | \"Ce champ est requis\" | Sous le champ |\n\n#### Actions disponibles\n| Bouton | Label | Action | Condition d'activation |\n|--------|-------|--------|----------------------|\n| submit | \"Créer la réclamation\" | POST /api/reclamations | Formulaire valide |\n| cancel | \"Annuler\" | Retour liste | Toujours |\n| draft | \"Enregistrer brouillon\" | Sauvegarde locale | Toujours |\n\n### États de l'écran\n- **Chargement** : [Skeleton / Spinner]  \n- **Vide** : [Message si pas de données]  \n- **Erreur** : [Affichage des erreurs]  \n- **Succès** : [Feedback après soumission]  \n\n### Responsive\n- **Desktop** : [Comportement >1024px]  \n- **Tablet** : [Comportement 768-1024px]  \n- **Mobile** : [Comportement <768px]  \n\n### Accessibilité\n- Navigation clavier : [Tab order]  \n- Labels ARIA : [Éléments concernés]  \n- Contraste : [Conformité WCAG]  \n\n[PRÉCISIONS] : \n- Permettre la sauvegarde automatique en cas d'appel entrant pendant la saisie. \n- Intégrer un volet latéral pour faciliter l'accès à l'historique client. \n- Utiliser des codes couleur pour indiquer les niveaux de gravité des réclamations. \n- Adopter un ton professionnel et empathique dans le langage utilisé sur l'interface.",
+    "category": "UX",
+    "tags": [
+      "conception",
+      "ecran"
+    ],
+    "lastModified": "2026-01-17T22:55:36.104Z",
+    "isFavorite": false
+  },
+  {
+    "id": "vsmibvfla",
+    "title": "scenarios workflows alternatifs",
+    "content": "[CONTEXTE] : Le contexte de la demande concerne la modélisation et l'analyse d'un workflow pour le traitement des tickets d'incidents, incluant l'identification des scénarios alternatifs et des exceptions.\n\n[RÔLE] : Tu es un analyste qualité spécialisé dans les tests de processus, responsable de l'évaluation exhaustive des workflows.\n\n[INSTRUCTION] : Identifie tous les scénarios alternatifs et cas d'exception pour le workflow de traitement des tickets d'incidents, en suivant la structure fournie.\n\n[STRUCTURE]\n\n## SCÉNARIOS NOMINAUX\n### Scénario 1 : Cas standard - Priorité normale\n1. [Étape 1]\n2. [Étape 2]\n...\n**Durée totale** : [Estimation]\n**Probabilité** : [X%]\n\n### Scénario 2 : Cas standard - Priorité critique\n1. [Étape 1]\n2. [Étape 2]\n...\n**Durée totale** : [Estimation]\n**Probabilité** : [Y%]\n\n## SCÉNARIOS ALTERNATIFS\n### Alt-1 : [Nom du scénario]\n**Déclencheur** : [Condition qui active ce scénario]\n**Point de divergence** : [Étape X du workflow nominal]\n**Séquence** :\n1. [Étapes spécifiques]\n...\n**Retour au nominal** : [À quelle étape]\n**Fréquence estimée** : [X%]\n\n## SCÉNARIOS D'EXCEPTION\n### Exc-1 : [Nom de l'exception]\n**Déclencheur** : [Condition d'erreur]\n**Gestion** : [Comment traiter]\n**Notification** : [Qui alerter]\n**Reprise** : [Comment reprendre]\n\n## MATRICE DE COUVERTURE\n| Étape workflow | Scénarios la traversant | Testée? |\n|----------------|------------------------|---------|\n| ... | S1, S2, Alt-1 | ✓ |\n\n[PRÉCISIONS]\n- Assure-toi de couvrir les cas d'annulation à chaque étape du workflow.\n- Prends en compte les timeouts et les relances automatiques dans les scénarios.\n- Documente les cas de conflit, comme par exemple deux personnes travaillant sur le même ticket.\n- Inclue les scénarios de reprise après un incident technique pour garantir la continuité du service.",
+    "category": "workflow",
+    "tags": [
+      "workflow",
+      "modelisation"
+    ],
+    "lastModified": "2026-01-17T22:56:08.113Z",
+    "isFavorite": false
+  },
+  {
+    "id": "r7vhxxf6i",
+    "title": "modelisation de workflow",
+    "content": "[CONTEXTE] : La demande concerne la modélisation d'un processus de traitement d'incidents au sein d'une société de services informatiques de 150 employés. Les acteurs impliqués incluent le client, divers niveaux de support, un développeur et un manager. Les priorités des tickets sont classées en trois niveaux, avec des règles spécifiques concernant les escalades et les validations.\n\n[RÔLE] : Tu es un consultant en gestion des processus métier (BPM) certifié, avec une spécialisation en gestion des services informatiques (ITSM).\n\n[INSTRUCTION] : Modélise le workflow complet pour le traitement d'un ticket d'incident, en tenant compte des différentes priorités et des interactions entre les acteurs.\n\n[STRUCTURE]\n\n## VUE D'ENSEMBLE\n**Nom du processus** : [Nom du processus]\n**Objectif** : [Objectif métier du processus]\n**Déclencheur** : [Événement qui initie le processus]\n**Résultat** : [Résultat final du processus]\n**SLA global** : [Délai total maximum pour le traitement]\n**KPIs** :\n- [Indicateur 1] : [Cible associée]\n- [Indicateur 2] : [Cible associée]\n\n## ACTEURS ET RESPONSABILITÉS\n| Acteur | Rôle dans le processus | Responsabilités |\n|--------|------------------------|-----------------|\n| Client | Initiateur du ticket | Soumettre le ticket d'incident |\n| Support N1 | Premier niveau de support | Qualification et résolution initiale |\n| Support N2 | Deuxième niveau de support | Résolution des incidents complexes |\n| Développeur | Support technique | Résolution des problèmes techniques |\n| Manager | Validation des incidents critiques | Supervision et approbation des escalades |\n\n## DESCRIPTION DU WORKFLOW\n\n### Swimlane : [Acteur]\n(START) Réception du ticket | v [1. Qualifier le ticket] - Input : Ticket brut - Output : Ticket qualifié (catégorie, priorité) - Durée estimée : 5-15 min - Règles : RG-001, RG-002 | v | -- Oui --> [2. Alerter le manager] --> … | -- Non --> [3. Traitement standard] --> …\n\n### Points de décision\n| Décision | Condition | Branche Oui | Branche Non |\n|----------|-----------|-------------|-------------|\n| [Nom de la décision] | [Condition de décision] | [Action à réaliser si Oui] | [Action à réaliser si Non] |\n\n### Règles de gestion du processus\n| ID | Règle | Étape | Conséquence en cas de violation |\n|----|-------|-------|-------------------------------|\n| RG-001 | [Description de la règle] | [Étape concernée] | [Conséquence] |\n\n### Notifications et alertes\n| Événement | Destinataire | Canal de communication | Délai d'envoi |\n|-----------|--------------|-----------------------|---------------|\n| [Événement spécifique] | [Destinataire] | [Email/SMS/Push] | [Délai] |\n\n### Cas limites et exceptions\n1. **[Cas limite 1]** : [Description détaillée et traitement]\n2. **[Cas limite 2]** : [Description détaillée et traitement]\n\n## DIAGRAMME TEXTUEL COMPLET\n[Représentation ASCII ou textuelle complète du workflow]\n\n## INTÉGRATIONS\n| Système | Type d'intégration | Données échangées |\n|---------|-------------------|-------------------|\n| Jira | API REST | [Données spécifiques échangées] |\n\n[PRÉCISIONS] : \n- Inclure des boucles de retour en arrière possibles dans le workflow.\n- Documenter les temps d'attente maximum à chaque étape.\n- Prévoir des scénarios de délégation et d'absence des acteurs.\n- Identifier les étapes pouvant être automatisées pour améliorer l'efficacité du processus.",
+    "category": "workflow",
+    "tags": [
+      "workflow",
+      "modelisation"
+    ],
+    "lastModified": "2026-01-17T22:56:19.343Z",
+    "isFavorite": false
+  },
+  {
+    "id": "ocempgeow",
+    "title": "dictionnaire de données",
+    "content": "[CONTEXTE] : La documentation technique pour l'équipe de développement doit être élaborée à partir d'un modèle de données validé.\n\n[RÔLE] : Tu es un analyste technique spécialisé dans la documentation des bases de données.\n\n[INSTRUCTION] : Produis un dictionnaire de données détaillé et complet, intégrant toutes les spécifications nécessaires.\n\n[STRUCTURE]\n\n# DICTIONNAIRE DE DONNÉES\n## Application : [Nom de l'application]\n## Version : 1.0\n## Date : [Date de création]\n\n---\n\n### Table : [Nom de la table]\n**Description** : [Description fonctionnelle de la table]\n**Volume estimé** : [Estimation du volume des données à N/N+1/N+3]\n**Fréquence de mise à jour** : [Temps réel / Batch / Rare]\n\n| Colonne | Type SQL | Nullabilité | Valeur par défaut | Description | Règles de validation |\n|---------|----------|-------------|-------------------|-------------|---------------------|\n| ...     | VARCHAR(100) | NOT NULL | -                 | ...         | Non vide, max 100 caractères. |\n\n**Clé primaire** : [Liste des colonnes constituant la clé primaire]\n**Index** :\n- idx_[nom_index] ON ([colonnes]) - [Description de l'usage de l'index]\n\n**Contraintes** :\n- FK_[nom_contrainte] REFERENCES [table référencée]([colonne référencée])\n- CHK_[nom_contrainte] : [Condition de validation]\n\n**Triggers** : [Description des triggers si applicable]\n\n---\n\n[PRÉCISIONS]\n- Utiliser les types SQL spécifiquement pour PostgreSQL.\n- Documenter les valeurs possibles pour tous les champs énumérés.\n- Inclure les requêtes SQL de création (DDL) pour chaque table. \n- Assurer une clarté et une précision dans le langage utilisé, adapté au lecteur technique.",
+    "category": "Développement",
+    "tags": [],
+    "lastModified": "2026-01-17T16:49:46.917Z",
+    "isFavorite": false
+  },
+  {
+    "id": "dqdmdo48a",
+    "title": "validation mcd 2",
+    "content": "[CONTEXTE] : Un modèle de données a été conçu pour une application e-learning. Ce modèle nécessite une analyse approfondie pour en garantir l'efficacité et la performance.\n\n[RÔLE] : Tu es un DBA (Database Administrator) expert en optimisation et en revue de modèles de données, capable d'identifier les points faibles et de fournir des recommandations claires.\n\n[INSTRUCTION] : Analyse en profondeur le modèle de données fourni et identifie les problèmes potentiels ainsi que les domaines d'amélioration.\n\n[STRUCTURE]\n\n## 1. ANALYSE DE NORMALISATION\n- Identifie les violations potentielles de la 1ère forme normale (1NF).\n- Évalue les violations de la 2ème forme normale (2NF).\n- Examine les violations de la 3ème forme normale (3NF).\n- Discute des dénormalisations et leur justification.\n\n## 2. PROBLÈMES DE CONCEPTION\n- Recherche des relations manquantes entre les entités.\n- Vérifie les cardinalités pour s'assurer qu'elles sont correctes.\n- Analyse les types de données pour détecter d'éventuelles inadéquations.\n- Évalue l'emplacement des attributs pour éviter les incohérences.\n\n## 3. PERFORMANCE\n- Identifie les index manquants qui pourraient améliorer la performance des requêtes.\n- Prévoyez les requêtes problématiques qui pourraient ralentir le système.\n- Identifie les tables qui risquent d’augmenter considérablement en volume.\n- Évalue les besoins potentiels en partitionnement des tables.\n\n## 4. ÉVOLUTIVITÉ\n- Analyse la flexibilité du modèle face aux évolutions métiers.\n- Identifie les extensions prévisibles qui n'ont pas été anticipées.\n- Évalue les points de couplage fort qui pourraient poser des problèmes lors des modifications.\n\n## 5. RECOMMANDATIONS PRIORITAIRES\n- Fournis une liste des 5 modifications les plus critiques à apporter au modèle.\n\n[PRÉCISIONS] : \n- Considérer un volume de 100 entreprises, 50 000 utilisateurs, et 1 000 formations.\n- Anticiper 1 million d'enregistrements de progression dans la base de données.\n- Optimiser le modèle en prenant en compte les requêtes de reporting les plus fréquentes et en garantissant une performance optimale.",
+    "category": "mcd",
+    "tags": [
+      "mcd",
+      "validation",
+      "controle"
+    ],
+    "lastModified": "2026-01-17T22:56:41.013Z",
+    "isFavorite": false
+  },
+  {
+    "id": "vn3y8atl5",
+    "title": "mcd",
+    "content": "[CONTEXTE] : Développement d'une plateforme de e-learning pour entreprises, comprenant des fonctionnalités telles que des catalogues de formations, des parcours personnalisés, le suivi de la progression des apprenants, des évaluations, des certifications, et un reporting adapté pour les managers et les ressources humaines. La solution doit être compatible avec plusieurs entreprises en mode SaaS, intégrée avec SSO, et respecter les normes SCORM.\n\n[RÔLE] : En tant qu'architecte de données senior avec 15 ans d'expérience dans le développement d'applications SaaS B2B, tu es responsable de la création d'un modèle de données robuste et évolutif.\n\n[INSTRUCTION] : Élaborer un modèle de données relationnel détaillé pour la plateforme de e-learning.\n\n[STRUCTURE] : Pour chaque entité, fournir les informations suivantes :\n\n### ENTITÉ : [Nom en PascalCase]\n**Description** : [Définition fonctionnelle de l'entité]\n**Type** : [Référence / Transactionnelle / Association]\n\n**Attributs :**\n| Nom | Type | Null? | Unique? | Description | Exemple |\n|-----|------|-------|---------|-------------|---------|\n| id | UUID | Non | Oui | Identifiant technique unique de l'entité | a1b2c3... |\n| ... | ... | ... | ... | ... | ... |\n\n**Relations :**\n| Entité liée | Cardinalité | FK | Description |\n|-------------|-------------|-----|-------------|\n| ... | 1:N | entity_id | ... |\n\n**Index recommandés :**\n- [Liste des attributs souvent utilisés dans les filtres ou les tris]\n\n**Contraintes métier :**\n- [Détails sur les règles de validation, exigences d'unicité composite, etc.]\n\n---\n\n[PRÉCISIONS] : \n- Utiliser la convention de nommage snake_case pour tous les attributs.\n- Inclure les champs d'audit tels que created_at, updated_at, et created_by.\n- Prévoir un mécanisme de soft delete avec un champ deleted_at si pertinent.\n- Concevoir avec une attention particulière à la scalabilité, en intégrant des stratégies de partitionnement et d'archivage.\n- Identifier les entités nécessitant un historique pour le suivi des modifications.",
+    "category": "mcd",
+    "tags": [
+      "mcd",
+      "entites"
+    ],
+    "lastModified": "2026-01-17T22:56:49.633Z",
+    "isFavorite": false
+  },
+  {
+    "id": "t6n58o5vv",
+    "title": "validation et correction",
+    "content": "[CONTEXTE] : J'ai réalisé une analyse fonctionnelle pour une application dans le domaine de [domaine]. Je te fournis ci-dessous le résultat détaillé de mon travail.\n\n[Coller votre analyse]\n\n[RÔLE] : Tu es un consultant senior spécialisé dans la revue de spécifications fonctionnelles, reconnu pour ta rigueur, ton expertise et ton attention minutieuse aux détails.\n\n[INSTRUCTION] : Effectue une revue critique approfondie de cette analyse fonctionnelle en tenant compte des différents axes que je vais te fournir.\n\n[STRUCTURE] : Organise ta revue selon les axes suivants :\n\n1. **COMPLÉTUDE**\n   - Identifie les acteurs manquants.\n   - Détecte les fonctionnalités oubliées.\n   - Évalue les cas d'erreur non traités.\n\n2. **COHÉRENCE**\n   - Recherche des contradictions internes dans le document.\n   - Vérifie la présence de user stories qui se chevauchent.\n   - Analyse la cohérence des priorisations.\n\n3. **CLARTÉ**\n   - Souligne les formulations ambiguës.\n   - Note les termes non définis ou mal définis.\n   - Évalue les critères d'acceptation pour leur testabilité.\n\n4. **FAISABILITÉ**\n   - Évalue si la complexité du projet est sous-estimée.\n   - Identifie les dépendances non mentionnées.\n   - Analyse les risques techniques potentiels.\n\n5. **RECOMMANDATIONS**\n   - Propose les 5 améliorations les plus prioritaires.\n   - Formule des questions pertinentes à poser au client.\n   - Établis les points de vigilance pour les étapes suivantes.\n\n[PRÉCISIONS] : \n- Adopte un ton constructif mais exigeant dans ta critique.\n- Justifie chaque remarque que tu formules.\n- Propose des reformulations concrètes lorsque c'est possible.",
+    "category": "analyse",
+    "tags": [
+      "analyse",
+      "validation"
+    ],
+    "lastModified": "2026-01-17T22:57:22.704Z",
+    "isFavorite": false
+  },
+  {
+    "id": "72xnsjj8d",
+    "title": "users stories et backlog",
+    "content": "[CONTEXTE] : Ce prompt concerne la création d'un backlog produit pour une application dédiée à la gestion des interventions techniques, en intégrant diverses entités, processus et règles de gestion.\n\n[RÔLE] : Tu es un Product Owner agile expérimenté, capable de traduire des besoins métier en user stories claires et exploitables.\n\n[INSTRUCTION] : Génère un backlog produit initial sous forme de user stories, organisé par Epic, en tenant compte des différents utilisateurs et des aspects techniques nécessaires.\n\n[STRUCTURE] : Le format de réponse doit inclure les éléments suivants pour chaque Epic et user story :\n\n## EPIC : [Nom de l'Epic]\n**Objectif** : [Valeur métier de cet Epic]  \n**Persona principal** : [Utilisateur cible]  \n\n### US-[XXX] : [Titre court]\n**Story** : En tant que [rôle], je veux [action] afin de [bénéfice]  \n**Priorité** : Must Have / Should Have / Could Have / Won't Have  \n**Points** : [Estimation relative S/M/L/XL]  \n\n**Critères d'acceptation** :\n- [ ] Étant donné [contexte], quand [action], alors [résultat]  \n- [ ] Étant donné [contexte], quand [action], alors [résultat]  \n\n**Notes techniques** :\n- [Dépendance, contrainte, point d'attention]  \n\n**Règles de gestion associées** : [RG-XXX, RG-YYY]  \n\n---\n\n[PRÉCISIONS] :\n- Générer un minimum de 20 à 30 user stories.\n- Couvrir tous les personas identifiés dans le projet.\n- Inclure des user stories techniques, telles que des intégrations et des migrations.\n- Prioriser les user stories selon la méthode MoSCoW.\n- Veiller à ce que les critères d'acceptation soient clairs et testables pour faciliter la validation.",
+    "category": "user story",
+    "tags": [
+      "user story",
+      "besoins metiers"
+    ],
+    "lastModified": "2026-01-17T22:57:56.119Z",
+    "isFavorite": false
+  },
+  {
+    "id": "u0gwn2t0l",
+    "title": "regles de gestion",
+    "content": "[CONTEXTE] : Développement d'une application de gestion des interventions techniques, visant à structurer et optimiser le processus de traitement des demandes d'intervention, qu'elles proviennent de clients ou de capteurs IoT.\n\n[RÔLE] : Tu es un analyste fonctionnel spécialisé dans la définition et l'élaboration de règles métier pour des processus techniques.\n\n[INSTRUCTION] : Élaborer un ensemble de règles de gestion détaillées qui régissent le processus de traitement d'une demande d'intervention, en tenant compte des différentes étapes identifiées.\n\n[STRUCTURE] : Pour chaque règle, utilise le format suivant :\n\n[RG-XXX] [Nom court de la règle]\n**Énoncé** : [Formulation précise de la règle]\n**Condition** : SI [condition] ALORS [action/contrainte]\n**Entités concernées** : [Liste des acteurs et éléments impliqués]\n**Étape du processus** : [Spécifie à quelle étape la règle s'applique]\n**Exception** : [Décrit les cas d'exception où la règle ne s'applique pas]\n**Source** : [Indique si elle est réglementaire, métier ou technique]\n**Exemple** : [Fournis une illustration concrète de la règle en action]\n\n[PRÉCISIONS] : \n- Inclure des règles relatives à la validation des données, aux calculs nécessaires, aux déclenchements d'actions et aux autorisations requises.\n- Distinguer clairement entre les règles métier non négociables et celles qui peuvent être paramétrées.\n- Intégrer des règles spécifiques aux SLA (Service Level Agreements) concernant les délais d'intervention.\n- Prévoir un total de 15 à 25 règles pour une couverture exhaustive du processus.",
+    "category": "analyse",
+    "tags": [
+      "regles metiers"
+    ],
+    "lastModified": "2026-01-17T22:58:27.073Z",
+    "isFavorite": false
+  },
+  {
+    "id": "raavaa5i9",
+    "title": "identification processus",
+    "content": "[CONTEXTE] : Dans le cadre du développement d'une application de gestion des interventions techniques, il est crucial d'analyser les entités clés telles que Client, Site, Équipement, Contrat, Intervention, Technicien, Compétence, PièceDétachée, Stock, et Facture afin d'optimiser les flux de travail.\n\n[RÔLE] : Tu es un consultant senior en Business Process Management (BPM), spécialisé dans l'optimisation des processus métier.\n\n[INSTRUCTION] : Identifie et décris les processus métier principaux qui régissent les interactions et les transactions entre ces entités.\n\n[STRUCTURE] : Pour chaque processus identifié, fournis les détails suivants :\n\n### PROCESSUS : [Nom du processus]\n**Type** : [Principal/Support/Management]  \n**Déclencheur** : [Événement qui initie le processus]  \n**Acteurs impliqués** : [Liste des rôles participants]  \n**Entités manipulées** : [Liste des entités créées, modifiées ou consultées]  \n**Résultat attendu** : [Description claire de l'output du processus]  \n**Indicateurs de performance** : [KPIs pertinents pour mesurer l'efficacité]  \n**Étapes principales** :  \n1. [Description de l'étape 1]  \n2. [Description de l'étape 2]  \n...  \n**Variantes** : [Cas particuliers ou branches alternatives du processus]\n\n[PRÉCISIONS] : \n- Identifie entre 5 et 8 processus principaux, en veillant à ce qu'ils soient représentatifs des flux de travail de l'application.\n- Inclure spécifiquement le processus de bout en bout, allant de la demande client jusqu'à la facturation.\n- Différencier clairement les processus en temps réel des processus en mode batch.\n- Adopter un ton professionnel et analytique pour faciliter la compréhension des processus métier.",
+    "category": "analyse",
+    "tags": [
+      "processus"
+    ],
+    "lastModified": "2026-01-17T22:58:44.326Z",
+    "isFavorite": false
+  },
+  {
+    "id": "22aysd10t",
+    "title": "identification d'entités",
+    "content": "[CONTEXTE] : Je suis en train d'analyser les besoins d'une application de gestion des interventions techniques pour une entreprise de maintenance industrielle. Les fonctionnalités identifiées incluent la planification des interventions, la gestion des techniciens, le suivi des équipements, la gestion des pièces, la facturation et le reporting.\n\n[RÔLE] : Tu es un expert en conception de systèmes d'information, spécialisé dans la Gestion de la Maintenance Assistée par Ordinateur (GMAO).\n\n[INSTRUCTION] : Identifie les principales entités métier pertinentes pour la conception de cette application.\n\n[STRUCTURE] : Pour chaque entité identifiée, veuillez fournir les informations suivantes :\n\n### [NOM DE L'ENTITÉ]\n**Description** : Fournir une définition métier concise en 2-3 phrases.\n**Exemples concrets** : Inclure 2-3 exemples illustratifs liés à cette entité.\n**Attributs candidats** : Lister les informations pertinentes à stocker pour cette entité.\n**Relations pressenties** : Décrire les liens potentiels avec d'autres entités identifiées.\n**Questions ouvertes** : Énoncer les points qui nécessitent clarification ou discussion avec les parties prenantes.\n\n[PRÉCISIONS] : \n- Identifier entre 8 et 12 entités principales.\n- Faire la distinction entre les entités de référence (statiques) et les entités transactionnelles (dynamiques).\n- Éviter les détails techniques relatifs aux attributs (tels que ID, dates système, etc.). \n- Utiliser un ton professionnel et clair.",
+    "category": "mcd",
+    "tags": [
+      "entités"
+    ],
+    "lastModified": "2026-01-17T22:59:01.191Z",
+    "isFavorite": false
+  },
+  {
+    "id": "eacmeahss",
+    "title": "extraction et reformulation besoins",
+    "content": "[CONTEXTE] : Vous disposez d'un compte-rendu d'une réunion de cadrage avec un client concernant la refonte de leur système de gestion des réclamations, qui est actuellement obsolète.\n\n[RÔLE] : Vous êtes un Business Analyst expert en extraction et structuration de besoins, capable de synthétiser des informations complexes.\n\n[INSTRUCTION] : Analysez le compte-rendu fourni et extrayez les informations demandées de manière structurée, en suivant le format indiqué.\n\n[DOCUMENT À ANALYSER]\n\"\"\"\nCR Réunion cadrage - Projet Gestion Réclamations - 15/01/2026\n\nPrésents : M. Dupont (DSI), Mme Martin (Resp. Service Client), M. Bernard (Chef de projet)\n\nContexte : Le système actuel sous Access est obsolète. Les réclamations arrivent par email, téléphone et courrier. Délai de traitement moyen : 12 jours. \nObjectif : passer à 5 jours max.\n\nPoints abordés :\n- Les réclamations doivent être catégorisées (produit, livraison, facturation, autre)\n- Plusieurs niveaux d'escalade selon la gravité\n- Le service client (12 personnes) traite ~200 réclamations/mois\n- Besoin de tableaux de bord pour le management\n- Intégration CRM Salesforce existant souhaitée\n- Questions de confidentialité : certaines réclamations sont sensibles\n- Budget : enveloppe de 50-80k€\n- Planning souhaité : mise en production septembre 2026\n\nPoints de vigilance soulevés par Mme Martin :\n- Les clients veulent un suivi en temps réel de leur réclamation\n- Certains agents sont réticents au changement\n- Le système doit être simple à utiliser\n\nProchaines étapes :\n- Envoi cahier des charges détaillé pour le 30/01\n- Réunion de présentation des solutions le 15/02\n\"\"\"\n\n[STRUCTURE] \nProduisez l'extraction selon le format suivant :\n\n1. ACTEURS IDENTIFIÉS\n   - [Nom/Rôle] : [Responsabilités dans le projet]\n\n2. BESOINS FONCTIONNELS\n   - [BF-XX] : [Description] | Priorité : [H/M/L] | Source : [qui l'a exprimé]\n\n3. BESOINS NON FONCTIONNELS\n   - [BNF-XX] : [Description] | Catégorie : [Performance/Sécurité/Ergonomie/...]\n\n4. CONTRAINTES\n   - [C-XX] : [Description] | Type : [Budget/Planning/Technique/Organisationnel]\n\n5. RISQUES IDENTIFIÉS\n   - [R-XX] : [Description] | Impact : [H/M/L] | Probabilité : [H/M/L]\n\n6. HYPOTHÈSES À VALIDER\n   - [H-XX] : [Hypothèse formulée] | À valider avec : [qui]\n\n7. INFORMATIONS MANQUANTES\n   - [Liste des points à clarifier]\n\n[PRÉCISIONS] \n- Soyez exhaustif tout en évitant les doublons.\n- Distinguez clairement entre les besoins explicites et implicites.\n- Priorisez les besoins selon leur importance business apparente.\n- Utilisez un ton formel et professionnel.",
+    "category": "analyse",
+    "tags": [
+      "besoins"
+    ],
+    "lastModified": "2026-01-17T22:59:26.095Z",
+    "isFavorite": false
+  },
+  {
+    "id": "s7z4xyrnh",
+    "title": "specifications",
+    "content": "[CONTEXTE] : Je suis consultant sur un projet de digitalisation de la formation interne pour une entreprise de taille moyenne comptant entre 200 et 500 employés. Le client a exprimé le besoin de développer une application permettant de gérer les formations internes, incluant l'inscription des employés, la validation par les managers, et l'organisation par les ressources humaines. L'application doit également offrir des fonctionnalités de suivi des participations et de génération d'attestations.\n\n[RÔLE] : Tu es un analyste fonctionnel senior, expert en systèmes d'information et applications dédiées aux ressources humaines.\n\n[INSTRUCTION] : Identifie les zones d'incertitude dans le brief fourni par le client et élabore une liste de questions pertinentes à poser afin de mieux cerner leurs besoins et attentes.\n\n[STRUCTURE] : Classe les questions par thème afin de structurer la discussion :\n1. Acteurs et rôles\n2. Types de formations\n3. Processus d'inscription\n4. Validation et workflow\n5. Suivi et reporting\n6. Conformité et attestations\n7. Intégrations\n\nPour chaque question, veille à inclure :\n- Une formulation claire et concise\n- Une explication sur l'importance de cette question (impact potentiel sur la conception de l'application)\n- Des options ou réponses possibles pour guider la réflexion\n\n[PRÉCISIONS] : \n- Priorise les questions essentielles qui pourraient bloquer le processus de conception\n- Limite le nombre de questions à un maximum de 5 par thème pour garantir la clarté et la concision\n- Évite les questions qui pourraient être résolues par des hypothèses raisonnables afin de maximiser l'efficacité de la collecte d'informations.",
+    "category": "analyse",
+    "tags": [
+      "analyse specs"
+    ],
+    "lastModified": "2026-01-17T22:59:57.944Z",
+    "isFavorite": false
+  },
+  {
+    "id": "80ybbe55r",
+    "title": "description fonctionnelle écran",
+    "content": "[CONTEXTE] : Création d'un formulaire de création de client pour une application de gestion de la relation client (CRM).\n\n[RÔLE] : Expert en conception d'interfaces utilisateur (UI) chargé de fournir une description fonctionnelle détaillée.\n\n[INSTRUCTION] : Génère une description fonctionnelle complète d'un écran de formulaire de création de client, en suivant les étapes et le format spécifiés.\n\n[STRUCTURE] : \n1. Vue d'ensemble de l'écran comprenant l'objectif et les utilisateurs cibles.\n2. Description de la structure visuelle avec les différentes zones et sections.\n3. Détails pour chaque champ sous le format suivant : \n   - [Élément] | [Type] | [Validation] | [Erreur] | [Notes]\n4. Description des boutons d'action, de leur comportement et de leur accessibilité.\n5. Mention des raccourcis clavier pertinents pour faciliter l'utilisation.\n6. Explication du comportement responsive, en particulier pour les appareils mobiles.\n\n[PRÉCISIONS] : Utilise un ton clair et professionnel, en veillant à être exhaustif dans les descriptions. Assure-toi de couvrir tous les aspects nécessaires pour une compréhension complète du formulaire.",
+    "category": "UX",
+    "tags": [
+      "formulaire",
+      "ecran"
+    ],
+    "lastModified": "2026-01-17T23:00:21.864Z",
+    "isFavorite": false
+  },
+  {
+    "id": "xj8jjw9pr",
+    "title": "Analyse d'un modèle de données",
+    "content": "[CONTEXTE] : Analyse d'un modèle de données destiné à une application de réservation de salles de réunion pour s'assurer de sa robustesse et de son efficacité.\n\n[RÔLE] : Expert en modélisation de données et en bases de données, avec une approche analytique et méthodique.\n\n[INSTRUCTION] : Analyse le modèle de données fourni en suivant les étapes détaillées ci-dessous. Pour chaque étape, justifie ton raisonnement avant de conclure.\n\n[STRUCTURE] : \n1. Présentation de l'étape analysée\n2. Justification de l'analyse\n3. Conclusion pour chaque étape\n\n[PRÉCISIONS] : Sois clair et concis dans tes explications, utilise un langage technique approprié, et veille à respecter un ton pédagogique. Assure-toi de proposer des recommandations concrètes pour chaque optimisation.",
+    "category": "Développement",
+    "tags": [
+      "mcd",
+      "analyse"
+    ],
+    "lastModified": "2026-01-17T22:52:07.007Z",
+    "isFavorite": false
+  },
+  {
+    "id": "6n274hwwa",
+    "title": "user stories",
+    "content": "[CONTEXTE] : La demande concerne la transformation de besoins fonctionnels en user stories selon un format standardisé, utile pour le développement agile.\n\n[RÔLE] : Agir en tant qu'expert en rédaction de user stories pour les projets de développement de produits.\n\n[INSTRUCTION] : Transformer le besoin exprimé en une user story conforme au format standard, en suivant les exemples fournis.\n\n[STRUCTURE] : La réponse doit inclure la user story rédigée de manière claire et concise, en respectant la formulation \"En tant que [persona], je veux [objectif] afin de [bénéfice]\".\n\n[PRÉCISIONS] : Utiliser un ton professionnel et structuré. S'assurer que la user story est facilement compréhensible et directement applicable au développement.",
+    "category": "user story",
+    "tags": [
+      "user story"
+    ],
+    "lastModified": "2026-01-17T23:00:46.819Z",
+    "isFavorite": false
+  },
+  {
+    "id": "ho4732x24",
+    "title": "Élaborer un modèle de données relationnel",
+    "content": "[CONTEXTE] : Nous développons une application de gestion de projets destinée à une agence de communication. Cette agence gère environ 50 projets en parallèle, impliquant des équipes de 2 à 8 membres par projet. Chaque projet dispose d'un budget, de livrables spécifiques et de jalons à respecter.\n\n[RÔLE] : Tu es un architecte de données chevronné, spécialisé dans les applications SaaS.\n\n[INSTRUCTION] : Élaborer un modèle de données relationnel pour l'application de gestion de projets.\n\n[STRUCTURE] : Pour chaque entité, présente les détails de la manière suivante :\n- ENTITÉ : [Nom]\n  - Description : [1-2 phrases sur l'entité]\n  - Attributs :\n    - [nom] : [type] : [contrainte] : [description]\n  - Relations :\n    - [entité cible] : [type (1:1, 1:N, N:M)] : [description de la relation]\n\n[PRÉCISIONS] :\n- Intégrer un mécanisme pour la gestion des versions des livrables.\n- Inclure un système de suivi du temps investi par chaque collaborateur.\n- Permettre la facturation par projet.\n- Exclure la gestion comptable détaillée des finances.",
+    "category": "Développement",
+    "tags": [
+      "mcd"
+    ],
+    "lastModified": "2026-01-17T22:52:41.279Z",
+    "isFavorite": false
+  },
+  {
+    "id": "1na7ia6l8",
+    "title": "analyse de besoin",
+    "content": "[CONTEXTE] : Un client e-commerce utilise actuellement un système de gestion des retours par email, entraînant des délais de traitement de 5 à 7 jours et un taux d'erreur de 15%. L'objectif est d'optimiser ce processus pour réduire le délai à 48 heures et le taux d'erreur à moins de 2%.\n\n[RÔLE] : Tu es un Business Analyst spécialisé en e-commerce et logistique, avec une expertise dans l'optimisation des processus.\n\n[INSTRUCTION] : Analyse les besoins du client et élabore une liste détaillée de questions à poser afin de clarifier les spécifications fonctionnelles liées à la refonte du processus de gestion des retours.\n\n[STRUCTURE] : Classe les questions par thème, en veillant à bien couvrir chaque aspect du processus :\n1. Processus actuel\n2. Utilisateurs et rôles\n3. Règles métier\n4. Intégrations avec d'autres systèmes\n5. Contraintes techniques et logistiques\n6. Indicateurs de succès et critères de performance\n\nPour chaque question, précise son niveau de priorité (Haute/Moyenne/Basse) afin de guider le client sur les points les plus critiques à aborder.\n\n[PRÉCISIONS] : \n- Le client utilise Shopify comme plateforme e-commerce.\n- L'entrepôt est géré par un prestataire logistique externe.\n- Le service client est constitué de 5 personnes.\n- Adopte un ton professionnel et clair, en utilisant un langage accessible au client.",
+    "category": "analyse",
+    "tags": [
+      "analyse specs"
+    ],
+    "lastModified": "2026-01-17T23:01:15.432Z",
+    "isFavorite": false
+  },
+  {
+    "id": "oag2bo2nb",
+    "title": "creation modeles de données",
+    "content": "[CONTEXTE] : Développement d'un modèle de données pour un système de gestion de la relation client (CRM) dédié aux entreprises B2B.\n\n[RÔLE] : Expert en conception de bases de données.\n\n[INSTRUCTION] : Élaborer un modèle de données structuré et détaillé pour un CRM B2B, en intégrant les contraintes spécifiées.\n\n[STRUCTURE] : Fournir une description des entités principales, de leurs attributs, et des relations entre elles, sous forme de schéma ou de tableau.\n\n[PRÉCISIONS] : Le modèle doit inclure les éléments suivants :\n- Entités pour la gestion des prospects et des clients (entreprises).\n- Capacités de suivi des contacts multiples associés à chaque entreprise.\n- Système d'historique des interactions, incluant des types d'interactions (appels, emails, réunions).\n- Description d'un pipeline de ventes comportant cinq étapes distinctes.\n- Prévisions d'intégration avec un outil de facturation, en mentionnant les points d'interaction.",
+    "category": "mcd",
+    "tags": [
+      "mcd",
+      "entites"
+    ],
+    "lastModified": "2026-01-17T23:01:34.274Z",
+    "isFavorite": false
+  },
+  {
     "id": "4sfl5cd3v",
     "title": "entité metier",
     "content": "[CONTEXTE] : Tu es impliqué dans un projet de digitalisation pour une entreprise française de location de véhicules, qui gère un parc de 200 véhicules répartis sur 5 agences. Le système actuel, basé sur Excel, souffre de nombreuses erreurs et nécessite une refonte.\n\n[RÔLE] : Tu endosses le rôle d'analyste fonctionnel senior, expert en applications métier, avec une compréhension approfondie des processus de location de véhicules.\n\n[INSTRUCTION] : Identifie et décrit les entités principales du domaine de la location de véhicules ainsi que leurs relations inter-entities.\n\n[STRUCTURE] : Pour chaque entité identifiée, présente les informations suivantes sous forme de tableau markdown :\n1. Nom de l'entité\n2. Description fonctionnelle (2-3 phrases)\n3. Attributs principaux (nom, type, obligatoire Oui/Non)\n4. Relations avec d'autres entités (type de relation, cardinalité)\n\n[PRÉCISIONS] : \n- Concentre-toi exclusivement sur les processus liés à la location de véhicules, en évitant les aspects comptables.\n- Tiens compte des spécificités du marché français, notamment les réglementations concernant les permis de conduire et les assurances.\n- Exclue toute référence à la gestion des ressources humaines (RH) des employés. \n- Adopte un ton professionnel et clair, facilitant la compréhension des parties prenantes.",
-    "category": "Coding",
-    "tags": [],
-    "lastModified": "2026-01-17T14:52:50.551Z",
+    "category": "mcd",
+    "tags": [
+      "mcd",
+      "entites"
+    ],
+    "lastModified": "2026-01-17T23:01:51.062Z",
     "isFavorite": false
   },
   {
     "id": "1",
     "title": "Expert React/Next.js",
     "content": "**Rôle :** Expert senior en React et Next.js 15  \n**Tâche :** Fournir des réponses concises et précises sur les meilleures pratiques en utilisant les Server Components, TypeScript strict, et Tailwind CSS, accompagnées d'exemples de code complets.  \n**Contraintes :** Utiliser un langage technique approprié, se concentrer sur des solutions optimales avec des explications minimales.  \n**Format de sortie :** Réponses sous forme de blocs de code lorsque cela est nécessaire, avec des commentaires explicatifs succincts.  \n\n**Exemple de question :** \"Comment créer un composant serveur avec TypeScript et Tailwind CSS dans Next.js 15 ?\"  \n\n**Réponse attendue :**  \n```typescript\n// Composant serveur simple en Next.js 15 avec TypeScript et Tailwind CSS\nimport React from 'react';\n\nconst ServerComponent: React.FC = async () => {\n  // On peut récupérer des données ici si nécessaire\n  const data = await fetchData();\n\n  return (\n    <div className=\"flex flex-col items-center p-4\">\n      <h1 className=\"text-2xl font-bold\">Bienvenue sur mon application Next.js !</h1>\n      <p className=\"mt-2 text-gray-600\">{data.message}</p>\n    </div>\n  );\n};\n\nasync function fetchData() {\n  // Simuler une fetch API\n  return new Promise(resolve => {\n    setTimeout(() => {\n      resolve({ message: 'Données récupérées avec succès!' });\n    }, 1000);\n  });\n}\n\nexport default ServerComponent;\n```",
-    "category": "Coding",
+    "category": "Développement",
     "tags": [
       "react",
       "nextjs",
       "typescript"
     ],
-    "lastModified": "2026-01-17T14:49:12.537Z",
+    "lastModified": "2026-01-17T23:02:14.090Z",
     "isFavorite": true
   },
   {
     "id": "2",
     "title": "Correction orthographique",
-    "content": "Corrige ce texte en français. Améliore le style pour qu'il soit professionnel, supprime les répétitions et assure-toi que la grammaire est parfaite. Ne change pas le sens du message original.",
-    "category": "Writing",
+    "content": "[CONTEXTE] : Un texte en français doit être optimisé pour un usage professionnel, afin d'améliorer sa clarté et son impact.\n\n[RÔLE] : Expert en correction et amélioration de texte, spécialisé dans la rédaction professionnelle.\n\n[INSTRUCTION] : Analyse et corrige le texte fourni en français, en améliorant la structure et le style pour qu'ils soient adaptés à un contexte professionnel. Élimine les répétitions, corrige les erreurs grammaticales et syntaxiques, tout en veillant à maintenir le sens original du message.\n\n[STRUCTURE] : Présente le texte corrigé, suivi d'une section explicative détaillant les améliorations apportées, notamment les changements de style, de grammaire et de clarté.\n\n[PRÉCISIONS] : Adopte un ton formel et professionnel. Assure-toi de ne pas altérer le contenu ou le sens du texte original, mais concentre-toi sur l'amélioration de sa présentation et de son efficacité.",
+    "category": "Rédaction",
     "tags": [
       "correction",
       "email",
       "pro"
     ],
-    "lastModified": "2024-03-20T11:00:00.000Z",
+    "lastModified": "2026-01-17T23:02:55.001Z",
     "isFavorite": false
   },
   {
     "id": "3",
     "title": "Stratégie Marketing Instagram",
-    "content": "Crée un calendrier éditorial de 5 posts pour Instagram pour une marque de café artisanal. Inclus les légendes, les suggestions visuelles et les hashtags pertinents pour une audience jeune et urbaine.",
+    "content": "[CONTEXTE] : Création d'un calendrier éditorial pour une marque de café artisanal visant à engager une audience jeune et urbaine sur Instagram.\n\n[RÔLE] : Expert en marketing digital et création de contenu pour les réseaux sociaux.\n\n[INSTRUCTION] : Élaborer un calendrier éditorial comprenant 5 publications pour Instagram. Pour chaque publication, fournir une légende accrocheuse, des suggestions de visuels créatifs, et une sélection de hashtags pertinents.\n\n[STRUCTURE] : \n1. Titre de la publication\n2. Légende\n3. Suggestions visuelles\n4. Hashtags\n\n[PRÉCISIONS] : Utiliser un ton moderne et dynamique, adapté à une audience jeune et urbaine. Les suggestions visuelles doivent être innovantes et refléter l'identité de la marque de café artisanal.",
     "category": "Marketing",
     "tags": [
       "instagram",
       "social-media",
       "café"
     ],
-    "lastModified": "2024-03-20T12:00:00.000Z",
+    "lastModified": "2026-01-17T23:02:47.136Z",
     "isFavorite": false
   }
 ]

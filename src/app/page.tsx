@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Prompt } from "../types/index";
 import { PromptCard } from "@/components/prompt-card";
 import { PromptFormDialog } from "@/components/prompt-form-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Plus, Search, Sparkles, Loader2 } from "lucide-react";
+import { Plus, Search, Sparkles, Loader2, FilterX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import Link from "next/link";
 
-export default function Home() {
+// Composant interne qui utilise useSearchParams (nécessite Suspense)
+function PromptList() {
+  const searchParams = useSearchParams();
+  const categoryFilter = searchParams.get("category");
+  const specialFilter = searchParams.get("filter"); // 'favorites'
+  const tagFilter = searchParams.get("tag");
+
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,7 +35,6 @@ export default function Home() {
       const res = await fetch("/api/prompts");
       if (!res.ok) throw new Error("Erreur chargement");
       const data = await res.json();
-      // Conversion des strings de date en objets Date si nécessaire
       const formattedData = data.map((p: any) => ({
         ...p,
         lastModified: new Date(p.lastModified)
@@ -40,28 +47,44 @@ export default function Home() {
     }
   };
 
-  // Fonction utilitaire pour sauvegarder dans db.json
   const savePromptsToDb = async (newPrompts: Prompt[]) => {
-    // Mise à jour optimiste de l'UI
     setPrompts(newPrompts);
-    
     try {
       await fetch("/api/prompts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPrompts),
       });
-      // On ne notifie pas à chaque sauvegarde auto pour ne pas spammer, sauf erreur
     } catch (error) {
       console.error("Erreur sauvegarde:", error);
       toast.error("Erreur lors de la sauvegarde automatique");
     }
   };
 
-  const filteredPrompts = prompts.filter((prompt) =>
-    prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    prompt.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // Logique de filtrage combinée
+  const filteredPrompts = prompts.filter((prompt) => {
+    // 1. Filtre recherche textuelle
+    const matchesSearch = 
+      prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      prompt.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    // 2. Filtre Catégorie (URL)
+    const matchesCategory = categoryFilter 
+      ? prompt.category === categoryFilter 
+      : true;
+
+    // 3. Filtre Spécial (Favoris)
+    const matchesSpecial = specialFilter === 'favorites' 
+      ? prompt.isFavorite 
+      : true;
+
+    // 4. Filtre Tag (URL)
+    const matchesTag = tagFilter
+      ? prompt.tags.some(t => t.toLowerCase() === tagFilter.toLowerCase())
+      : true;
+
+    return matchesSearch && matchesCategory && matchesSpecial && matchesTag;
+  });
 
   const handleCreateOrUpdate = (values: any, id?: string) => {
     const tagsArray = values.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t !== "");
@@ -69,7 +92,6 @@ export default function Home() {
     let newPromptsList: Prompt[];
 
     if (id) {
-      // Update
       newPromptsList = prompts.map(p => p.id === id ? {
         ...p,
         ...values,
@@ -78,7 +100,6 @@ export default function Home() {
       } : p);
       toast.success("Prompt mis à jour");
     } else {
-      // Create
       const newPrompt: Prompt = {
         id: Math.random().toString(36).substr(2, 9),
         title: values.title,
@@ -116,17 +137,12 @@ export default function Home() {
     try {
       const response = await fetch("/api/optimize", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: prompt.content }),
       });
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Une erreur est survenue");
-      }
+      if (!response.ok) throw new Error(data.error || "Une erreur est survenue");
 
       const newPromptsList = prompts.map(p => p.id === prompt.id ? {
         ...p,
@@ -147,6 +163,13 @@ export default function Home() {
     setIsDialogOpen(true);
   };
 
+  const getPageTitle = () => {
+    if (categoryFilter) return `Catégorie : ${categoryFilter}`;
+    if (specialFilter === 'favorites') return "Mes Favoris";
+    if (tagFilter) return `Tag : #${tagFilter}`;
+    return "Tous mes Prompts";
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -162,8 +185,19 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <SidebarTrigger className="md:hidden" />
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Mes Prompts</h1>
-            <p className="text-muted-foreground">Gérez et optimisez votre bibliothèque de prompts.</p>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold tracking-tight">{getPageTitle()}</h1>
+              {(categoryFilter || specialFilter || tagFilter) && (
+                <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
+                  <Link href="/">
+                    <FilterX className="h-4 w-4 mr-1" /> Effacer filtre
+                  </Link>
+                </Button>
+              )}
+            </div>
+            <p className="text-muted-foreground">
+              {filteredPrompts.length} prompt{filteredPrompts.length > 1 ? 's' : ''} trouvé{filteredPrompts.length > 1 ? 's' : ''}.
+            </p>
           </div>
         </div>
         <Button onClick={openNewPromptDialog} className="shrink-0">
@@ -198,7 +232,16 @@ export default function Home() {
         ) : (
           <div className="col-span-full text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
             <Sparkles className="h-12 w-12 mx-auto mb-4 opacity-20" />
-            <p>Aucun prompt trouvé. Créez-en un nouveau !</p>
+            <p>
+              {(categoryFilter || specialFilter || tagFilter || searchQuery) 
+                ? "Aucun prompt ne correspond à vos critères." 
+                : "Aucun prompt trouvé. Créez-en un nouveau !"}
+            </p>
+            {(categoryFilter || specialFilter || tagFilter) && (
+              <Button variant="link" asChild>
+                <Link href="/">Voir tous les prompts</Link>
+              </Button>
+            )}
           </div>
         )}
       </div>
@@ -210,5 +253,14 @@ export default function Home() {
         initialData={editingPrompt}
       />
     </div>
+  );
+}
+
+// Wrapper principal avec Suspense pour éviter les erreurs de build Next.js avec useSearchParams
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+      <PromptList />
+    </Suspense>
   );
 }

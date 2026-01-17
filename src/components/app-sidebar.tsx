@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Home,
   Inbox,
@@ -23,17 +24,18 @@ import {
 const items = [
   {
     title: "Tous les prompts",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Favoris",
-    url: "#",
+    url: "/?filter=favorites",
     icon: Sparkles,
   },
+  // Brouillons n'est pas encore implémenté dans le modèle de données, on le garde pour plus tard ou on filtre sur un tag "draft"
   {
     title: "Brouillons",
-    url: "#",
+    url: "/?tag=brouillon",
     icon: Inbox,
   },
 ];
@@ -67,10 +69,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -86,10 +88,10 @@ export function AppSidebar() {
                 categories.map((cat) => (
                   <SidebarMenuItem key={cat}>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <Link href={`/?category=${encodeURIComponent(cat)}`}>
                         <Tag className="h-4 w-4" />
                         <span>{cat}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))
